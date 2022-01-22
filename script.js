@@ -2,9 +2,10 @@
 
 
 class Calculator {
-    constructor(previousOperandTextElement, currentOperandTextElement) {
+    constructor(previousOperandTextElement, currentOperandTextElement, debugElement) {
         this.previousOperandTextElement = previousOperandTextElement;
         this.currentOperandTextElement = currentOperandTextElement;
+        this.debugElement = debugElement;
 
         // clearing everything on startup to set starting values
         this.clear();
@@ -38,16 +39,16 @@ class Calculator {
 
         // if there is math to do, do it
         if(this.previousOperand !== '') {
-            this.compute();
+            this.compute('operation');
         }
 
         // setting previous line to current line when operation entered
-        this.previousOperand = `${this.currentOperand}`;
+        this.previousOperand = this.currentOperand;
         this.currentOperand = '';
 
     }
 
-    compute() {
+    compute(computeSource) {
         let compuation;
         let prev = parseFloat(this.previousOperand);
         let current = parseFloat(this.currentOperand);
@@ -59,13 +60,18 @@ class Calculator {
         switch (this.operation) {
             case '+': compuation = prev + current; break;
             case '-': compuation = prev - current; break;
-            case '*': compuation = prev * current; break;
+            case '×': compuation = prev * current; break;
             case '÷': compuation = prev / current; break;
             default: return;
         }
         this.currentOperand = compuation;
-        this.operation = undefined;
-        this.previousOperand = '';
+        
+        // allow for chainging together more than 2 operand only calculations
+        // by only clearing operation and previousOperand when the source is the = button
+        if(computeSource === 'equal') {
+            this.operation = undefined;
+            this.previousOperand = '';
+        }
     }
 
     getDisplayNumber(number){
@@ -97,6 +103,10 @@ class Calculator {
         } else {
             this.previousOperandTextElement.innerText = '';
         }
+
+        this.debugElement.innerText = `prev:${this.previousOperand}
+        current:${this.currentOperand}
+        operation:${this.operation}`;
     }
 }
 
@@ -107,9 +117,10 @@ const deleteButton = document.querySelector('[data-delete]');
 const allClearButton = document.querySelector('[data-all-clear]');
 const previousOperandTextElement = document.querySelector('[data-previous-operand]');
 const currentOperandTextElement = document.querySelector('[data-current-operand]');
+const debugElement = document.querySelector('[debug-box]');
 
 
-const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement);
+const calculator = new Calculator(previousOperandTextElement, currentOperandTextElement, debugElement);
 
 numberButtons.forEach(button =>{
     button.addEventListener('click', ()=>{
@@ -126,7 +137,7 @@ operationButtons.forEach(button =>{
 });
 
 equalsButton.addEventListener('click', button =>{
-    calculator.compute();
+    calculator.compute('equal');
     calculator.updateDisplay();
 });
 

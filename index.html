@@ -9,8 +9,9 @@
     <script src="script.js" defer></script>
 </head>
 <body>
+    <div class="debug" debug-box></div>
     <div class="calculator-grid">
-        <div class="output">
+        <div class="output top-curve">
             <div data-previous-operand class="previous-operand"></div>
             <div data-current-operand class="current-operand"></div>
         </div>
@@ -20,7 +21,7 @@
         <button data-number>1</button>
         <button data-number>2</button>
         <button data-number>3</button>
-        <button data-operation>*</button>
+        <button data-operation>×</button>
         <button data-number>4</button>
         <button data-number>5</button>
         <button data-number>6</button>
@@ -29,9 +30,9 @@
         <button data-number>8</button>
         <button data-number>9</button>
         <button data-operation>-</button>
-        <button data-number>.</button>
+        <button data-number class="bottom-left">.</button>
         <button data-number>0</button>
-        <button data-equals class="span-two">=</button>
+        <button data-equals class="span-two bottom-right">=</button>
     </div>
 </body>
 </html>

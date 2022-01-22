@@ -1,13 +1,27 @@
 *, *::before, *::after {
     box-sizing: border-box;
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: 'Lucida Console', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-weight: normal;
 }
 
 body {
     padding: 0;
     margin: 0;
-    background: linear-gradient(to right, #00AAFF, #ffae00);
+    background: linear-gradient(45deg, #0077ff, #00bb10, #AA00FF, #fa4b4b);
+    background-size: 400% 400%;
+    animation: gradient 45s ease infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .calculator-grid {
@@ -29,10 +43,24 @@ body {
 
 .calculator-grid > button:hover {
     background-color: rgba(255,255,255, 0.90);
+    background: linear-gradient(-45deg, rgba(255,255,255, 0.75), #FFFFFF);
 }
 
 .calculator-grid > button:active {
-    text-shadow: 0px 0px 6px #00AAFF;
+    background: linear-gradient(-45deg, #FFFFFF, rgba(255,255,255, 0.75));
+}
+
+
+.calculator-grid > .bottom-left {
+    border-radius: 0px 0px 0px 10px;
+}
+
+.calculator-grid > .bottom-right {
+    border-radius: 0px 0px 10px 0px;
+}
+
+.calculator-grid > .top-curve {
+    border-radius: 10px 10px 0px 0px;
 }
 
 .span-two {
@@ -59,4 +87,12 @@ body {
 .output .current-operand {
     color: white;
     font-size: 2.5rem;
+}
+
+.debug {
+    float: left;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
 }
