@@ -17,7 +17,7 @@ class Calculator {
     }
 
     delete() {
-
+        this.currentOperand = this.currentOperand.toString().slice(0,-1);
     }
 
     appendNumber(number){
@@ -40,15 +40,32 @@ class Calculator {
         if(this.previousOperand !== '') {
             this.compute();
         }
-        
+
         // setting previous line to current line when operation entered
-        this.previousOperand = `${this.currentOperand} ${operation}`;
+        this.previousOperand = `${this.currentOperand}`;
         this.currentOperand = '';
 
     }
 
     compute() {
+        let compuation;
+        let prev = parseFloat(this.previousOperand);
+        let current = parseFloat(this.currentOperand);
 
+        if(isNaN(prev) || isNaN(current)) {
+            return;
+        }
+
+        switch (this.operation) {
+            case '+': compuation = prev + current; break;
+            case '-': compuation = prev - current; break;
+            case '*': compuation = prev * current; break;
+            case '÷': compuation = prev / current; break;
+            default: return;
+        }
+        this.currentOperand = compuation;
+        this.operation = undefined;
+        this.previousOperand = '';
     }
 
     updateDisplay(){
@@ -81,4 +98,19 @@ operationButtons.forEach(button =>{
         calculator.chooseOperation(button.innerText);
         calculator.updateDisplay();
     });
+});
+
+equalsButton.addEventListener('click', button =>{
+    calculator.compute();
+    calculator.updateDisplay();
+});
+
+allClearButton.addEventListener('click', button =>{
+    calculator.clear();
+    calculator.updateDisplay();
+});
+
+deleteButton.addEventListener('click', button =>{
+    calculator.delete();
+    calculator.updateDisplay();
 });
